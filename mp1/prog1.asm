@@ -94,7 +94,7 @@ GET_NEXT
 	ADD R1,R1,#1		; point to next character in string
 	BRnzp COUNTLOOP		; go to start of counting loop
 
-
+; partners: Dhruv Vishwanath (dhruvv2) & Akshay Sundaram (akshay5)
 
 PRINT_HIST
 
