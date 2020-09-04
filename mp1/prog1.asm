@@ -101,6 +101,7 @@ PRINT_HIST
 ; My approach to this MP was to convert the starting position of the
 ; histogram’s memory and then into a ASCII value. I used loops to achieve this,
 ; looping the conversion over until the R0 became a null character. 
+; partners: akshay5, sasinkg2, dhruvv2
 ; Here is the register table for printing
 ; R0 takes values to print
 ; R1 holds address of histogram
@@ -109,77 +110,78 @@ PRINT_HIST
 ; R4 holds a set of 4 bits
 ; R5 holds value of histogram
 ; R6 is a temp register
-    
-    AND R0, R0, #0
-    AND R1, R1, #0
-    AND R2, R2, #0
-    AND R3, R3, #0
-    AND R4, R4, #0
-    AND R5, R5, #0
-    AND R6, R6, #0
-    AND R7, R7, #0 ; clear registers
-    
-    LD R3, NUM_BINS
-    LD R2, ATSYMBOL
-    LD R1, HIST_ADDR
+	
+	AND R0, R0, #0
+	AND R1, R1, #0
+	AND R2, R2, #0
+	AND R3, R3, #0
+	AND R4, R4, #0
+	AND R5, R5, #0
+	AND R6, R6, #0
+	AND R7, R7, #0 ; clear registers
+	
+	LD R3, NUM_BINS
+	LD R2, ATSYMBOL
+	LD R1, HIST_ADDR
 
 LINELOOP
-    AND R0, R0, #0
-    ADD R0, R0, R2 ; print bin label
-    OUT
-    AND R0, R0, #0
-    LD R6, SPACE
-    ADD R0, R0, R6 ; print space
-    OUT
-    LDR R5, R1, #0 ; load hist value from hist address
-    AND R4, R4, #0
-    ADD R4, R4, #4 ; set up counter for HEXPRINTER
-    BRnzp HEXPRINTER ; branch to HEXPRINTER
+	AND R0, R0, #0
+	ADD R0, R0, R2 ; print bin label
+	OUT
+	AND R0, R0, #0
+	LD R6, SPACE
+	ADD R0, R0, R6 ; print space
+	OUT
+	LDR R5, R1, #0 ; load hist value from hist address
+	AND R4, R4, #0
+	ADD R4, R4, #4 ; set up counter for HEXPRINTER
+	BRnzp HEXPRINTER ; branch to HEXPRINTER
 
 FINISHPRINT
-    AND R0, R0, #0
-    LD R6, NEWLINE
-    ADD R0, R0, R6 ; print newline char
-    OUT
-    ADD R2, R2, #1 ; increment bin label value
-    ADD R1, R1, #1 ; increment hist address
-    ADD R3, R3, #-1 ; increment print counter by -1
-    BRp LINELOOP ; start printing a new line otherwise,
-    BRnzp DONE ; end program
+	AND R0, R0, #0
+	LD R6, NEWLINE
+	ADD R0, R0, R6 ; print newline char
+	OUT
+	ADD R2, R2, #1 ; increment bin label value
+	ADD R1, R1, #1 ; increment hist address
+	ADD R3, R3, #-1 ; increment print counter by -1
+	BRp LINELOOP ; start printing a new line otherwise,
+	BRnzp DONE ; end program
 
 HEXPRINTER
-    AND R0, R0, #0
-    AND R6, R6, #0
-    ADD R6, R6, #4
+	AND R0, R0, #0
+	AND R6, R6, #0
+	ADD R6, R6, #4
 
 BITSET
-    ADD R5, R5, #0 ; check R5 bit
-    BRzp NOTHING ; if positive, add nothing and loop again
-    ADD R0, R0, #1 ; add 1 to bit holder
+	ADD R5, R5, #0 ; check R5 bit
+	BRzp NOTHING ; if positive, add nothing and loop again
+	ADD R0, R0, #1 ; add 1 to bit holder
 NOTHING
-    ADD R5, R5, R5 ; shift hist holder left
-    ADD R0, R0, R0 ; shift bit value left
-    ADD R6, R6, #-1 ; increment bitset loop
-    BRnp BITSET ; loop BITSET 4 times
+	ADD R5, R5, R5 ; shift hist holder left
+	ADD R0, R0, R0 ; shift bit value left
+	ADD R6, R6, #-1 ; increment bitset loop
+	BRnp BITSET ; loop BITSET 4 times
 
-    ADD R0, R0, #0
-    BRz ZERO
+	ADD R0, R0, #0
+	BRz ZERO
 DIVIDE
-    ADD R6, R6, #1
-    ADD R0, R0, #-2
-    BRp DIVIDE    
-    ADD R6, R6, #-10
-    BRn READYPRINT
-    ADD R6, R6, #7
+	ADD R6, R6, #1 ; bit shift right to simulate division
+	ADD R0, R0, #-2 ; subtract 2
+	BRp DIVIDE	
+	ADD R6, R6, #-10 ; subtract 10 so that we can check negative
+	BRn READYPRINT
+	ADD R6, R6, #7
 READYPRINT
-    ADD R6, R6, #10
+	ADD R6, R6, #10 ; add back the 10 after we checked
 ZERO
-    LD R7, ASCII
-    ADD R0, R6, R7 ; add ascii offset to get ascii numbers
-    OUT
-    ADD R4, R4, #-1; increment hex digit counter
-    BRnp HEXPRINTER ; loop HEXPRINTER four times
-    BRnzp FINISHPRINT ; branch to FINISHPRINT
+	LD R7, ASCII
+	ADD R0, R6, R7 ; add ascii offset to get ascii numbers
+	OUT
+	ADD R4, R4, #-1; increment hex digit counter
+	BRnp HEXPRINTER ; loop HEXPRINTER four times
+	BRnzp FINISHPRINT ; branch to FINISHPRINT
+
 
 
 
