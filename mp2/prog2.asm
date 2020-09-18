@@ -1,6 +1,6 @@
 ;
 ;
-;
+; partners: dhruvv2, aksu
 .ORIG x3000
 	
 ;your code goes here
@@ -244,7 +244,7 @@ RET
 
 EXP
 ;your code goes here
-EXP ; do whatever ur supposed to do for exponential
+; EXP do whatever ur supposed to do for exponential
 STI R7, SAVE_R7
 AND R0, R0, #0
 EXPLOOP2
@@ -330,7 +330,7 @@ SUBT .FILL x002D
 DIVIDE .FILL x002F
 EXPO .FILL x005E
 SPACE .FILL x0020
-WRONG .STRINGZ “Invalid Expression”
+WRONG .STRINGZ "Invalid Expression"
 SAVE_R7 .FILL x0000
 
 
