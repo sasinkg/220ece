@@ -5,6 +5,13 @@
 	
 ;your code goes here
 	
+; partners: dhruvv2, sasinkg2, akshay5
+; For this mp we decided to split the code into all the different operators
+; We also implemented a print function and a bit shift function
+; We had trouble with figuring out the exponents, division, multiplication, subtraction and sometimes
+; our program would go into an infinite loop, so we had to step through it multiple times to find out our errors
+; We also thought that we needed a stack pointer since R6 wasn’t doing anything
+; We then figured out  that it was already implemented for us, but it was using a different register that we were changing the value of
 
 
 
