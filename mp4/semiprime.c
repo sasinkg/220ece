@@ -13,10 +13,10 @@ int is_prime(int number)
     if (number == 1) {return 0;}
     for (i = 2; i < number; i++) { //for each number smaller than it
         if (number % i == 0) { //check if the remainder is 0
-            return 1;
+            return 0;
         }
     }
-    return 0;
+    return 1;
 }
 
 
@@ -34,7 +34,7 @@ int print_semiprimes(int a, int b)
         for (j = 2; j <= i; j++) {
             if (i%j == 0) {
                 if (is_prime(j)) {
-                    k = i%j;
+                    k = i/j;
                     if (is_prime(k)) {
                         printf("%d ", i);
                     }
