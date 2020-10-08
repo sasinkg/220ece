@@ -11,9 +11,18 @@
  * in this file to help you get started.
  */
 
-/* partners: sasinkg2 akshay5 dhruvv2 
-For this project... */ 
+/* partners: sasinkg2 akshay5 dhruvv2
+in this project, our logic was basically to set up 3 different loops that check the following:
+1 - if the guess is valid 
+2 - if the guess is a perfect match
+3 - if the guess is misplaced match
+and then taking the bits we get (1 is true, 0 is false) and multiplying it by 1000 for perfect and 100 for misplaced and 
+adding it together. 
 
+It wasn't that hard to do this MP, however, i think figuring out which data types to use when initializing the 
+integers/characters and how to format the arrays in a way that it doesnt print out the wrong index or it doesnt 
+take the wrong input in were the hardest part of this MP. Once you get the logic, it made sense, but figuring out 
+how to implement it using integers or characters makes it a little harder */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -90,7 +99,7 @@ int set_seed (const char seed_str[]) {
     char post[2];
     if (sscanf (seed_str, "%d%1s", &seed, post) != 1) {
       // your code here
-      printf("set_seed: invalid seed\n");
+      printf("set_seed: invalid seed\n");  //random seed
       return 0;
     } else {
         srand(seed);
@@ -113,10 +122,10 @@ int set_seed (const char seed_str[]) {
  * SIDE EFFECTS: records the solution in the static solution variables for use by make_guess, set guess_number
  */
 void start_game () {
-    guess_number = 1;
+    guess_number = 1; // initialize guess & max score
     max_score = -1;
     for (int i = 0; i < 4; i++) {
-        int random = (rand()%8);
+        int random = (rand()%8); // give random seed 
         strcpy(solutions[i],pool[random]);
     }
 
@@ -147,19 +156,20 @@ int make_guess (const char guess_str[]) {
     int perfectmatch = 0;   
     int misplacedmatch = 0;
     
-    char guesses1[10], guesses2[10], guesses3[10], guesses4[10], trash[2];
-    if (sscanf (guess_str, "%s%s%s%s%1s", guesses1, guesses2, guesses3, guesses4, trash) !=4) {
-        printf("make_guess: invalid guess\n");
+    /* Check invalid */ 
+    char guesses1[10], guesses2[10], guesses3[10], guesses4[10]; // 4 inputs
+    if (sscanf (guess_str, "%s%s%s%s", guesses1, guesses2, guesses3, guesses4) !=4) {
+        printf("make_guess: invalid guess\n"); // if invalid print this
         return 0;
     } 
-    char *guess[4]; 
-    guess[0] = guesses1;
-    guess[1] = guesses2;
+    char *guess[4]; //intialize guess variables
+    guess[0] = guesses1; // match string to input
+    guess[1] = guesses2; 
     guess[2] = guesses3;
     guess[3] = guesses4;
     sscanf(guess_str, "%s %s %s %s", guess[0], guess[1], guess[2], guess[3]);
-    int guesscheck[5] = {0,0,0,0,0};
-    int solutioncheck[5] = {0,0,0,0,0}; 
+    int guesscheck[5] = {0,0,0,0,0}; // create array with null value at the end
+    int solutioncheck[5] = {0,0,0,0,0};  // one more array to check solutions
 
     /* Check for Valid Guess */
     for (int i = 0; i < 4; i++) {
@@ -171,16 +181,16 @@ int make_guess (const char guess_str[]) {
 
     /* Check for Perfect Match */
     for (int j = 0; j < 4; j++) {
-        if (strcmp(guess[j], solutions[j]) == 0) {
-            perfectmatch++;
-            guesscheck[j]=1;
+         if (strcmp(guess[j], solutions[j]) == 0) {
+            perfectmatch++; //if true increment score by 1
+            guesscheck[j]=1; 
             solutioncheck[j]=1;
         }
     }
 
     /* Check for Misplaced Match */
-    for (int k = 0; k < 4; k++) {
-        for (int l = 0; l < 4; l++) {
+    for (int k = 0; k < 4; k++) { // loop 1-4  for  4 guesses
+        for (int l = 0; l < 4; l++) { // compare to all 4 diff solutions
             if ((strcmp(guess[k], solutions[l]) == 0 && guesscheck[k] == 0 && solutioncheck[l] == 0)) {
                 misplacedmatch++;
                 guesscheck[k] = 1;
@@ -191,7 +201,7 @@ int make_guess (const char guess_str[]) {
 
     /* score tally code below */ 
     int score = 0;
-    score = (perfectmatch*1000 + misplacedmatch*100);
+    score = (perfectmatch*1000 + misplacedmatch*100); // point system: 1000 for perfect, and 100 for misplaced
     if (score > max_score) {
         max_score = score;
     }
@@ -200,13 +210,9 @@ int make_guess (const char guess_str[]) {
     printf("Your score is %d and cur max is %d. \n", score, max_score); 
 
     if (perfectmatch == 4) {
-        return 2;
+        return 2; // if all guess are correct return 2
     } else {
-        guess_number++;
+        guess_number++; // increment because they will have to guess again
         return 1;
     }
 }
-
-
-
-
