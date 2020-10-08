@@ -141,14 +141,68 @@ void start_game () {
  */
 int make_guess (const char guess_str[]) {
     
-    int perfectmatch = 0;
+    /* Initializing integers*/ 
+    int perfectmatch = 0;   
     int misplacedmatch = 0;
-    char guess = [4][10];
-    int guesscheck [5] = [0,0,0,0,0];
-    int solutioncheck [5] = {0,0,0,0,0};
     
+    char guesses1[10], guesses2[10], guesses3[10], guesses4[10], trash[2];
+    if (sscanf (guess_str, "%s%s%s%s%1s", guesses1, guesses2, guesses3, guesses4, trash) !=4) {
+        printf("make_guess: invalid guess\n");
+        return 0;
+    } 
+    char *guess[4]; 
+    guess[0] = guesses1;
+    guess[1] = guesses2;
+    guess[2] = guesses3;
+    guess[3] = guesses4;
+    sscanf(guess_str, "%s %s %s %s", guess[0], guess[1], guess[2], guess[3]);
+    int guesscheck[5] = {0,0,0,0,0};
+    int solutioncheck[5] = {0,0,0,0,0}; 
 
-    
+    /* Check for Valid Guess */
+    for (int i = 0; i < 4; i++) {
+        if (is_valid(guess[i]) != 1) {
+            printf("make_guess: invalid guess\n"); 
+            return 0;
+        }
+    } 
+
+    /* Check for Perfect Match */
+    for (int j = 0; j < 4; j++) {
+        if (strcmp(guess[j], solutions[j] == 0)) {
+            perfectmatch++;
+            guesscheck[j]=1;
+            solutioncheck[j]=1;
+        }
+    }
+
+    /* Check for Misplaced Match */
+    for (int k = 0; k < 4; k++) {
+        for (int l = 0; l < 4; l++) {
+            if ((strcmp(guess[k], solutions[l]) == 0 && guesscheck[k] == 0 && solutioncheck[l] == 0)) {
+                misplacedmatch++;
+                guesscheck[k] = 1;
+                solutioncheck[l] = 1; 
+            }
+        }
+    }
+
+    /* score tally code below */ 
+    int score = 0;
+    score = (perfectmatch*1000 + misplacedmatch*100);
+    if (score > max_score) {
+        max_score = score;
+    }
+
+    printf("With guess %d, you got %d perfect matches and %d misplaced matches. \n", guess_number, perfectmatch, misplacedmatch);
+    printf("Your score is %d and cur max is %d. \n", score, max_score); 
+
+    if (perfectmatch == 4) {
+        return 2;
+    } else {
+        guess_number++;
+        return 1;
+    }
 }
 
 
