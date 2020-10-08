@@ -88,8 +88,12 @@ int set_seed (const char seed_str[]) {
     char post[2];
     if (sscanf (seed_str, "%d%1s", &seed, post) != 1) {
       // your code here
+      printf("set_seed: invalid seed\n");
+      return 0;
+    } else {
+        srand(seed);
+        return 1;
     }
-    // your code here
 }
 
 
@@ -137,8 +141,56 @@ void start_game () {
  */
 int make_guess (const char guess_str[]) {
   // your code here
-    
+    int perfect_match = 0;
+    int misplaced_match = 0;
+    int new_max = 0;
+    char str1[10], str2[10], str3[10], str4[10], trash[2];
+    if (sscanf(guess_str, "%s%s%s%s%1s", str1, str2, str3, str4, trash) != 4) {
+        printf("make guess: invalid guess\n");
+        return 0;
+    }
+    char *guess[4];
+    guess[0] = str1;
+    guess[1] = str2;
+    guess[2] = str3;
+    guess[3] = str4;
+    char check_guess [] = {0,0,0,0};
+    char check_answer [] = {0,0,0,0};
+
+    for (int i; i < 4; i++) {
+        if (is_valid(guess[1]) != 1) {
+            printf("make guess: invalid guess\n");
+            return 0;
+        } if (strcmp(guess[1], solutions[1]) == 0) {
+            check_guess[1] = 1;
+            check_answer[1] = 1;
+            perfect_match++;
+        }
+    }
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            if (check_guess[i] == 0 && check_answer[j] == 0) {
+                if (strcmp(guess[i], solutions[j]) == 0) { 
+                    check_guess[i] = 1;
+                    check_answer[j] = 1;
+                    misplaced_match++;
+                }
+            }
+        }  
+    }
+    new_max = (1000*perfect_match) + (100*misplaced_match);
+    if (new_max > max_score) {
+        max_score = new_max;
+        printf("With guess %d, you got %d perfect matches and %d misplaced matches. \n", guess_number, perfect_match, misplaced_match);
+        printf("Your score is %d and cur max is %d. \n", new_max, max_score); 
+    } if (perfect_match == 4) {
+        return 2;
+        guess_number++;
+       // return 1;
+    } 
+    return 1;
 }
+
 
 
 
