@@ -107,11 +107,11 @@ int set_seed (const char seed_str[]) {
  * SIDE EFFECTS: records the solution in the static solution variables for use by make_guess, set guess_number
  */
 void start_game () {
-    max_score = -1; //init max number to -1
-    guess_number = 1; // init guess_number to 1
-    for(int i = 0; i < 4; i++) { //do 4 times for each guess
-        int index = (rand() % 8); //init index to random between 0 and 7 as 8 choices
-        strcpy(solutions[i], pool[index]);  //set solutions to be 8 random strings from pool
+    guess_number = 1;
+    max_score = -1;
+    for (int i = 0; i < 4; i++) {
+        int index = (rand()%8);
+        strcpy(solutions[i],pool[index]);
     }
 
 }
