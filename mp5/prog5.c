@@ -11,6 +11,8 @@
  * in this file to help you get started.
  */
 
+/* partners: sasinkg2 akshay5 dhruvv2 
+For this project... */ 
 
 
 #include <stdio.h>
@@ -169,7 +171,7 @@ int make_guess (const char guess_str[]) {
 
     /* Check for Perfect Match */
     for (int j = 0; j < 4; j++) {
-        if (strcmp(guess[j], solutions[j] == 0)) {
+        if (strcmp(guess[j], solutions[j]) == 0) {
             perfectmatch++;
             guesscheck[j]=1;
             solutioncheck[j]=1;
