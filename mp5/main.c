@@ -4,6 +4,7 @@
 /* 
  * Your code is included as part of this file.
  */
+ 
 #include "prog5.h"
 
 /* This is the main code for the program, which calls the functions in prog4.c */
@@ -21,9 +22,7 @@ int main ()
         return 3;
       }
     } while (!set_seed (buf));
-    
-    ; testing this vs code 
-    
+
     //Show valid guessing pool
     print_pool();
     
