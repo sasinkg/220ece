@@ -13,16 +13,22 @@
  */
 
 int countLiveNeighbor(int* board, int boardRowSize, int boardColSize, int row, int col){
-}
-int liveneighbor = 0; // initialize
-for (int i = row - 1; i <= row + 1; i++) { 
-    if (row >= 0 && row <= boardRowSize) {
-        for (int j = col - 1; j <= col + 1; j++) {
-            if (col >= 0 && col <= boardColSize) {
-                
+    int liveneighbor = 0; // initialize
+    for (int i = row - 1; i <= row + 1; i++) { 
+        if (i >= 0 && i < boardRowSize) {
+            for (int j = col - 1; j <= col + 1; j++) {
+                if (j >= 0 && j < boardColSize) {
+                    if (i != row || j != col) {
+                        if (board[i*boardColSize + j] ==1) {
+                            liveneighbor++;
+                        }
+                    }
+                }
             }
         }
     }
+return liveneighbor;
+
 }
 
 
@@ -49,8 +55,8 @@ void updateBoard(int* board, int boardRowSize, int boardColSize) {
  * current step or there is no alive cells at all.
  * return 0 if the alive cells change for the next step.
  */ 
-int aliveStable(int* board, int boardRowSize, int boardColSize){
-}
+// int aliveStable(int* board, int boardRowSize, int boardColSize){
+//}
 
 				
 				
