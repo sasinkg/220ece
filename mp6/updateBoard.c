@@ -14,6 +14,18 @@
 
 int countLiveNeighbor(int* board, int boardRowSize, int boardColSize, int row, int col){
 }
+int liveneighbor = 0; // initialize
+for (int i = row - 1; i <= row + 1; i++) { 
+    if (row >= 0 && row <= boardRowSize) {
+        for (int j = col - 1; j <= col + 1; j++) {
+            if (col >= 0 && col <= boardColSize) {
+                
+            }
+        }
+    }
+}
+
+
 /*
  * Update the game board to the next step.
  * Input: 
