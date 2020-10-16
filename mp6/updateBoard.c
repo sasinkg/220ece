@@ -1,8 +1,14 @@
 /* sasinkg2 akshay5 dhruvv2 */ 
 /* intro paragraph: 
-
-*/
-
+* for countLiveNeighbors we decided to follow the code on the mp page
+* We did this by using by multiple loops
+* For updateBoard we created a temporary array to hold the values of the next iteration of board
+* We then copied the temp array back into board
+* For the last function we ran into trouble because the test wasn't passing
+* This was because we were calling updateBoard in the function which I think messed with the values of board or temp
+* we still aren't sure on that
+* In the end that was our biggest problem that took quite some time to figure out
+*/ 
 
 /* 
  * countLiveNeighbor
