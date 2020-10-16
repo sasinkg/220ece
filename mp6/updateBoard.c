@@ -1,5 +1,5 @@
-/* sasinkg2 akshay5 dhruvv2 */ 
-/* intro paragraph: 
+/*
+* dhruvv2, sasinkg2, akshay5
 * for countLiveNeighbors we decided to follow the code on the mp page
 * We did this by using by multiple loops
 * For updateBoard we created a temporary array to hold the values of the next iteration of board
@@ -7,8 +7,12 @@
 * For the last function we ran into trouble because the test wasn't passing
 * This was because we were calling updateBoard in the function which I think messed with the values of board or temp
 * we still aren't sure on that
+* We realized that we needed to use the same logic as updateBoard because if we "update" the board to a
+* temporary array and nothing changes compared to board, we know the game is over and to return 1
+* We ended up just copying the same code that updates the board into aliveStable and comparing each array index
+* rather than copying a board like in updateBoard
 * In the end that was our biggest problem that took quite some time to figure out
-*/ 
+*/
 
 /* 
  * countLiveNeighbor
