@@ -1,4 +1,11 @@
 #include "game.h"
+/* We did this mp by iterating through each column and row for each movement (wasd) and then in each move function
+    checking if there was anything that needed to be merged and then checking if anything needed to be slided in the
+    specified direction by using two for loops. We then checked for legal move based on the return value of each function.
+    We had troubles at some points when sliding up but we realized that we had to check the conditions if there was an
+    open cell to slide into before sliding.
+    Group members: akshay5, sasinkg2, dhruvv2
+*/
 
 game * make_game(int rows, int cols)
 /*! Create an instance of a game structure with the given number of rows
@@ -15,10 +22,10 @@ game * make_game(int rows, int cols)
     //YOUR CODE STARTS HERE:  Initialize all other variables in game struct
     mygame->cols = cols;
     mygame->rows = rows;
-    mygame->score = 0;
+    mygame->score = 0; // intialize all starting variables
     int i = 0;
     for(i=0; i<rows*cols; i++){
-        mygame->cells[i] = -1;
+        mygame->cells[i] = -1; //set all array to empty (-1)
     }
     return mygame;
 }
@@ -41,7 +48,7 @@ void remake_game(game ** _cur_game_ptr,int new_rows,int new_cols)
     (*_cur_game_ptr)->score = 0;
     int i = 0;
     for(i=0; i<new_rows*new_cols; i++){
-        (*_cur_game_ptr)->cells[i] = -1;
+        (*_cur_game_ptr)->cells[i] = -1; //same logic as above but with new variables
     }
     return; 
 }
@@ -67,9 +74,9 @@ cell * get_cell(game * cur_game, int row, int col)
     int cellcol = cur_game->cols;
     int cellrow = cur_game->rows;
     if(cellcol<=col || col<0 || cellrow<=row || row<0){
-        return NULL;
+        return NULL; //make sure cell is within bounds
     }
-    return cur_game->cells + (row * cur_game->cols + col);
+    return cur_game->cells + (row * cur_game->cols + col); 
 }
 
 int move_w(game * cur_game)
@@ -87,44 +94,41 @@ int move_w(game * cur_game)
     int validmove = 0;
     int cols = cur_game->cols;
     int rows = cur_game->rows;
-    for (j=0; j<cols; j++){
-        for(i=0; i<rows; i++){
-            if(cur_game->cells[i*cols+j] == -1){
+    for(j=0; j<cols; j++){ //iterate through columns
+        for(i=0; i<rows; i++){ //iterate through rows
+            if(cur_game->cells[i*cols+j] == -1){ //cell is empty don't do anything
                 continue;
             }else{
-                for(k=i+1; k<rows; k++){
-                    if(cur_game->cells[k*cols+j] == -1){
-                        break;
-                    }
-                    if(cur_game->cells[k*cols+j] == cur_game->cells[i*cols+j]){ //if the value in the first row and the row below match
-                        cur_game->cells[i*cols+j] = cur_game->cells[i*cols+j] + cur_game->cells[k*cols+j]; //set the first row to the sum
-                        cur_game->cells[k*cols+j] = -1; //set the row below to empty
-                        validmove = 1; //merge happened so this is a valid move
-                        cur_game->score += cur_game->cells[i*cols+j]; //add sum that was found before to score
-                        break;
-                    }
+                for(k=i+1; k<rows; k++){ // check a row below
+                if(cur_game->cells[k*cols+j] ==- 1)
+                    continue;
+                if(cur_game->cells[i*cols+j] == cur_game->cells[k*cols+j]){ //if the values are equal
+                    cur_game->cells[i*cols+j]= cur_game->cells[k*cols+j] + cur_game->cells[i*cols+j]; //copy sum
+                    cur_game->cells[k*cols+j] = -1; //set row below empty
+                    cur_game->score += cur_game->cells[i*cols+j]; //update score
+                    validmove = 1;
+                    k = cur_game->rows;              
+                } else
+                    break;
                 }
             }
+
         }
-        for (i=0; i<rows; i++){
-            if(cur_game->cells[i*cols+j] != -1){
-                continue;
-            }else{
-                for(k=i+1; k<rows; k++){
-                    if(cur_game->cells[k*cols+j] == -1){
-                        break;
-                    }
-                    if(cur_game->cells[i*cols+j] == -1 && cur_game->cells[k*cols+j != -1]){ //check that first row is empty and row below has a value
-                        cur_game->cells[i*cols+j] = cur_game->cells[k*cols+j];
-                        cur_game->cells[k*cols+j] = -1;
-                        validmove = 1;
-                    }
+        for(i=0; i<rows; i++){ 
+            if(cur_game->cells[i*cols+j] == -1){
+            for(k=i+1; k<rows; k++){
+                if(cur_game->cells[k*cols+j] != -1 && cur_game->cells[i*cols+j] == -1){ //if row is empty for a shift
+                    cur_game->cells[i*cols+j] = cur_game->cells[k*cols+j]; //shift
+                    cur_game->cells[k*cols+j] = -1;
+                    validmove = 1;
                 }
+            }
             }
         }
     }
-    return validmove;
-}
+
+     return validmove;
+    };
 int move_s(game * cur_game) //slide down
 {
     //YOUR CODE STARTS HERE
@@ -166,6 +170,7 @@ int move_s(game * cur_game) //slide down
                     cur_game->cells[i*cols+j] = cur_game->cells[k*cols+j];
                     cur_game->cells[k*cols+j] = -1;
                     validmove = 1;
+                    break;
                 }
             }
         }
@@ -212,6 +217,7 @@ int move_a(game * cur_game) //slide left
                         cur_game->cells[i*cols+j] = cur_game->cells[i*cols+k];
                         cur_game->cells[i*cols+k] = -1;
                         validmove = 1;
+                        break;
                     }
                 }
             }
@@ -228,34 +234,29 @@ int move_d(game * cur_game){ //slide to the right
     int validmove = 0;
     int cols = cur_game->cols;
     int rows = cur_game->rows;
-    for (i=0; i<rows; i++){
-        for(j=cols-1; j>=0; j++){
-            if(cur_game->cells[i*cols+j] == -1){
+    for(i=0; i<rows; i++){ //same iterations as before
+        for(j=cols-1; j>=0; j--){ 
+            if(cur_game->cells[i*cols +j] == -1)
                 continue;
-            }else{
+            else{
                 for(k=j-1; k>=0; k--){
-                    if(cur_game->cells[i*cols+k] == -1){
+                    if(cur_game->cells[i*cols+k] == -1)
+                        continue;
+                    if(cur_game->cells[i*cols+j] == cur_game->cells[i*cols+k]){
+                        cur_game->cells[i*cols+j] = cur_game->cells[i*cols+j] + cur_game->cells[i*cols+k];
+                        cur_game->cells[i*cols +k] = -1;
+                        cur_game->score += cur_game->cells[i*cols+j];
+                        validmove = 1;
+                        k=-1;
+                    }else
                         break;
-                    }
-                    if(cur_game->cells[i*cols+k] == cur_game->cells[i*cols+j]){ //if the value in the first column and the next column match
-                        cur_game->cells[i*cols+j] = cur_game->cells[i*cols+j] + cur_game->cells[i*cols+k]; //set the first column to the sum
-                        cur_game->cells[i*cols+k] = -1; //set the next column to empty
-                        validmove = 1; //merge happened so this is a valid move
-                        cur_game->score += cur_game->cells[i*cols+j]; //add sum that was found before to score
-                        break;
-                    }
                 }
             }
         }
-        for (j=cols-1; j>=0; j--){
-            if(cur_game->cells[i*cols+j] != -1){
-                continue;
-            }else{
+        for(j=cols-1; j>=0; j--){ //shift values with same logic as before
+            if(cur_game->cells[i*cols+j] == -1){
                 for(k=j-1; k>=0; k--){
-                    if(cur_game->cells[i*cols+k]){
-                        break;
-                    }
-                    if(cur_game->cells[i*cols+j] == -1 && cur_game->cells[i*cols+k != -1]){ //check that first column is empty and next column has a value
+                    if(cur_game->cells[i*cols+k] != -1 && cur_game->cells[i*cols+j] == -1){
                         cur_game->cells[i*cols+j] = cur_game->cells[i*cols+k];
                         cur_game->cells[i*cols+k] = -1;
                         validmove = 1;
@@ -263,9 +264,9 @@ int move_d(game * cur_game){ //slide to the right
                 }
             }
         }
-    }    
-    return validmove;
-}
+    }
+     return validmove;
+    };
 
 int legal_move_check(game * cur_game)
 /*! Given the current game check if there are any legal moves on the board. There are
