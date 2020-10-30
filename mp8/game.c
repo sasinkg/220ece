@@ -94,7 +94,7 @@ int move_w(game * cur_game)
             }else{
                 for(k=i+1; k<rows; k++){
                     if(cur_game->cells[k*cols+j] == -1){
-                        continue;
+                        break;
                     }
                     if(cur_game->cells[k*cols+j] == cur_game->cells[i*cols+j]){ //if the value in the first row and the row below match
                         cur_game->cells[i*cols+j] = cur_game->cells[i*cols+j] + cur_game->cells[k*cols+j]; //set the first row to the sum
@@ -106,14 +106,19 @@ int move_w(game * cur_game)
                 }
             }
         }
-    }
-    for (i=0; i<rows; i++){
-        if(cur_game->cells[i*cols+j] == -1){
-            for(k=i+1; k<rows; k++){
-                if(cur_game->cells[i*cols+j] == -1 && cur_game->cells[k*cols+j != -1]){ //check that first row is empty and row below has a value
-                    cur_game->cells[i*cols+j] = cur_game->cells[k*cols+j];
-                    cur_game->cells[k*cols+j] = -1;
-                    validmove = 1;
+        for (i=0; i<rows; i++){
+            if(cur_game->cells[i*cols+j] != -1){
+                continue;
+            }else{
+                for(k=i+1; k<rows; k++){
+                    if(cur_game->cells[k*cols+j] == -1){
+                        break;
+                    }
+                    if(cur_game->cells[i*cols+j] == -1 && cur_game->cells[k*cols+j != -1]){ //check that first row is empty and row below has a value
+                        cur_game->cells[i*cols+j] = cur_game->cells[k*cols+j];
+                        cur_game->cells[k*cols+j] = -1;
+                        validmove = 1;
+                    }
                 }
             }
         }
@@ -130,11 +135,14 @@ int move_s(game * cur_game) //slide down
     int cols = cur_game->cols;
     int rows = cur_game->rows;
     for (j=0; j<cols; j++){
-        for(i=rows-1; i>-0; i--){
+        for(i=rows-1; i>=0; i--){
             if(cur_game->cells[i*cols+j] == -1){
                 continue;
             }else{
-                for(k=i-1; k>=0; k++){
+                for(k=i-1; k>=0; k--){
+                    if(cur_game->cells[k*cols+j] == -1){
+                        break;
+                    }
                     if(cur_game->cells[k*cols+j] == cur_game->cells[i*cols+j]){ //if the value in the last row and the row above match
                         cur_game->cells[i*cols+j] = cur_game->cells[i*cols+j] + cur_game->cells[k*cols+j]; //set the last row to the sum
                         cur_game->cells[k*cols+j] = -1; //set the row above to empty
@@ -146,9 +154,14 @@ int move_s(game * cur_game) //slide down
             }
         }
     }
-    for (i=rows-1; i>=0; i++){
-        if(cur_game->cells[i*cols+j] == -1){
-            for(k=i-1; k>=0; k++){
+    for (i=rows-1; i>=0; i--){
+        if(cur_game->cells[i*cols+j] != -1){
+            continue;
+        }else{
+            for(k=i-1; k>=0; k--){
+                if(cur_game->cells[k*cols+j]){
+                    break;
+                }
                 if(cur_game->cells[i*cols+j] == -1 && cur_game->cells[k*cols+j != -1]){ //check that last row is empty and row above has a value
                     cur_game->cells[i*cols+j] = cur_game->cells[k*cols+j];
                     cur_game->cells[k*cols+j] = -1;
@@ -159,7 +172,6 @@ int move_s(game * cur_game) //slide down
     }
     return validmove;
 }
-
 int move_a(game * cur_game) //slide left
 {
     //YOUR CODE STARTS HERE
@@ -175,6 +187,9 @@ int move_a(game * cur_game) //slide left
                 continue;
             }else{
                 for(k=j+1; k<cols; k++){
+                    if(cur_game->cells[i*cols+k] == -1){
+                        break;
+                    }
                     if(cur_game->cells[i*cols+k] == cur_game->cells[i*cols+j]){ //if the value in the first column and the next column match
                         cur_game->cells[i*cols+j] = cur_game->cells[i*cols+j] + cur_game->cells[i*cols+k]; //set the first column to the sum
                         cur_game->cells[i*cols+k] = -1; //set the next column to empty
@@ -185,18 +200,23 @@ int move_a(game * cur_game) //slide left
                 }
             }
         }
-    }
-    for (j=0; j<cols; j++){
-        if(cur_game->cells[i*cols+j] == -1){
-            for(k=j+1; k<cols; k++){
-                if(cur_game->cells[i*cols+j] == -1 && cur_game->cells[i*cols+k != -1]){ //check that first column is empty and next column has a value
-                    cur_game->cells[i*cols+j] = cur_game->cells[i*cols+k];
-                    cur_game->cells[i*cols+k] = -1;
-                    validmove = 1;
+        for (j=0; j<cols; j++){
+            if(cur_game->cells[i*cols+j] != -1){
+                continue;
+            }else{    
+                for(k=j+1; k<cols; k++){
+                    if(cur_game->cells[i*cols+k] == -1){
+                        break;
+                    }
+                    if(cur_game->cells[i*cols+j] == -1 && cur_game->cells[i*cols+k != -1]){ //check that first column is empty and next column has a value
+                        cur_game->cells[i*cols+j] = cur_game->cells[i*cols+k];
+                        cur_game->cells[i*cols+k] = -1;
+                        validmove = 1;
+                    }
                 }
             }
         }
-    }
+    }    
     return validmove;
 }
 
@@ -214,6 +234,9 @@ int move_d(game * cur_game){ //slide to the right
                 continue;
             }else{
                 for(k=j-1; k>=0; k--){
+                    if(cur_game->cells[i*cols+k] == -1){
+                        break;
+                    }
                     if(cur_game->cells[i*cols+k] == cur_game->cells[i*cols+j]){ //if the value in the first column and the next column match
                         cur_game->cells[i*cols+j] = cur_game->cells[i*cols+j] + cur_game->cells[i*cols+k]; //set the first column to the sum
                         cur_game->cells[i*cols+k] = -1; //set the next column to empty
@@ -224,18 +247,23 @@ int move_d(game * cur_game){ //slide to the right
                 }
             }
         }
-    }
-    for (j=cols-1; j>=0; j--){
-        if(cur_game->cells[i*cols+j] == -1){
-            for(k=j-1; k>=0; k--){
-                if(cur_game->cells[i*cols+j] == -1 && cur_game->cells[i*cols+k != -1]){ //check that first column is empty and next column has a value
-                    cur_game->cells[i*cols+j] = cur_game->cells[i*cols+k];
-                    cur_game->cells[i*cols+k] = -1;
-                    validmove = 1;
+        for (j=cols-1; j>=0; j--){
+            if(cur_game->cells[i*cols+j] != -1){
+                continue;
+            }else{
+                for(k=j-1; k>=0; k--){
+                    if(cur_game->cells[i*cols+k]){
+                        break;
+                    }
+                    if(cur_game->cells[i*cols+j] == -1 && cur_game->cells[i*cols+k != -1]){ //check that first column is empty and next column has a value
+                        cur_game->cells[i*cols+j] = cur_game->cells[i*cols+k];
+                        cur_game->cells[i*cols+k] = -1;
+                        validmove = 1;
+                    }
                 }
             }
         }
-    }
+    }    
     return validmove;
 }
 
