@@ -1,8 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "maze.h"
-
-
+/* partners sasinkg2 akshay5 dhruvv2 */
 /*
  * createMaze -- Creates and fills a maze structure from the given file
  * INPUTS:       fileName - character array containing the name of the maze file
@@ -12,8 +11,47 @@
  */
 maze_t * createMaze(char * fileName)
 {
-    // Your code here. Make sure to replace following line with your own code.
-    return NULL;
+    int rows;
+    int cols;
+    int i;
+    int j;
+    FILE *fptr = fopen(fileName, "r"); //open file for read
+    if(fptr == NULL){
+        return NULL;
+    }
+    fscanf(fptr, "%d %d", &rows, &cols); //scan for row and col size
+    
+    
+    maze_t * maze = (maze_t *)wmalloc(sizeof(maze_t)); //create space for maze structure
+    maze->cells=(char **)malloc((maze->height)*sizeof(char*)); //create space for lookup
+    maze->startRow = -1;
+    maze->startColumn = -1;
+    maze->endRow = -1;
+    maze->endColumn = -1;
+    for(i=0;i<maze->height;i++){
+      maze->cells[i]=(char*)malloc(sizeof(char)*(maze->width)); //fill for columns
+    }
+    char temp;
+    for(i=0; i<rows; i++){
+        for(j=0; j<cols; j++){
+            fscanf (fptr, "%c", &temp); //read character
+            if(temp=='\n'){
+                j--;
+            }else{
+                maze->cells[i][j] = temp; //save read character into structure
+            }
+            if(temp=='S'){
+                maze->startRow = i;
+                maze->startColumn = j;
+            }
+            if(temp=='E'){
+                maze->endRow = i;
+                maze->endColumn = j;
+            }
+        }
+    }
+    fclose(fptr);
+    return maze;
 }
 
 /*
@@ -25,7 +63,12 @@ maze_t * createMaze(char * fileName)
  */
 void destroyMaze(maze_t * maze)
 {
-    // Your code here.
+    int i;
+    for (i=0; i<maze->height; i++){ //loop through all of structure
+        free(maze->cells[i]);
+    }
+    free(maze->cells); 
+    free(maze); //free structure
 }
 
 /*
@@ -39,7 +82,14 @@ void destroyMaze(maze_t * maze)
  */
 void printMaze(maze_t * maze)
 {
-    // Your code here.
+    int i;
+    int j;
+    for(i=0; i<maze->height; i++){
+        for (j=0; j<maze->width; j++){ //loop through board and print
+            printf("%c", maze->cells[i][j]);
+        }
+        printf("\n"); //print newlines to make board look nice
+    }
 }
 
 /*
@@ -53,6 +103,23 @@ void printMaze(maze_t * maze)
  */ 
 int solveMazeDFS(maze_t * maze, int col, int row)
 {
-    // Your code here. Make sure to replace following line with your own code.
+    if(maze->cells[row][col] == 'E'){ //check if end has been reached
+        maze->cells[maze->startRow][maze->startColumn] = 'S'; //set back to start
+        return 1;
+    }
+    if(col<0 || row<0 || col>=maze->width || row>=maze->height){ //check boundary conditions
+        return 0;
+    }
+    if(maze->cells[row][col]!=' ' && maze->cells[row][col]!='%' && maze->cells[row][col]!='S'){
+        return 0;
+    }
+    maze->cells[row][col] = '*'; //correct solution if empty conditions are met
+    if(solveMazeDFS(maze, col, row+1)) return 1;
+    if(solveMazeDFS(maze, col, row-1)) return 1;
+    if(solveMazeDFS(maze, col+1, row)) return 1;
+    if(solveMazeDFS(maze, col-1, row)) return 1; //check down, up, right, left for a correct move through a recursive call
+    maze->cells[row][col]='%'; //mark currently found path as wall so as to not go backwards
     return 0;
 }
+
+
