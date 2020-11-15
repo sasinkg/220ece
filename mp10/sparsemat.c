@@ -56,6 +56,7 @@ void set_tuples(sp_tuples * mat_t, int row, int col, double value){
     }else{
         sp_tuples_node *current = mat_t->tuples_head;
         sp_tuples_node *previous = NULL;
+        
         while(current != NULL){
             if(current->col == col && current->row == row){
                 if(value != 0){
@@ -155,7 +156,7 @@ sp_tuples * add_tuples(sp_tuples * matA, sp_tuples * matB){
     }
     return retmat;
 }
-
+// optional 
 sp_tuples * mult_tuples(sp_tuples * matA, sp_tuples * matB){ 
     return NULL;
 }
