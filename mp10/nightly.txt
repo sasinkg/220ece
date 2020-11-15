@@ -1,31 +1,18 @@
 Compilation Results:
 ********************
-sparsemat.c: In function ‘add_tuples’:
-sparsemat.c:43:9: error: ‘retmat’ undeclared (first use in this function)
-  return retmat;
-         ^
-sparsemat.c:43:9: note: each undeclared identifier is reported only once for each function it appears in
-sparsemat.c: In function ‘mult_tuples’:
-sparsemat.c:49:12: error: ‘retmat’ undeclared (first use in this function)
-     return retmat;
-            ^
-sparsemat.c: In function ‘add_tuples’:
-sparsemat.c:44:1: warning: control reaches end of non-void function [-Wreturn-type]
- }
- ^
-sparsemat.c: In function ‘mult_tuples’:
-sparsemat.c:51:1: warning: control reaches end of non-void function [-Wreturn-type]
- }
- ^
-make: *** [sparsemat.o] Error 1
 
 load_tuples test: 
 
 gv_tuples test: 
+Test 2: gv
+pass: gv_tuples
 
 set_tuples test: 
 
 save_tuples test: 
+Test 6: save
+testing save_tuples, saving to save_test_tuples.txt
+save_tuples: safely end (do not test correctness)
 
 This nightly test is focusing on compilation error not functionality test.
 This nightly report only tests on the released testcases.
