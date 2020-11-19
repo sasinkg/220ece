@@ -1,5 +1,8 @@
 #include "floorplan.h"
 
+/* partners sasinkg2 dhruvv2 akshay5
+introparagraph: */
+
 // Global variables. The global variables will be effectice after the input has been parsed
 // by calling the procedure read_module.
 int num_modules;                                            // # of input modules.
