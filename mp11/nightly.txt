@@ -1,0 +1,17 @@
+Compilation Results:
+********************
+floorplan.c: In function ‘int is_in_subtree(node_t*, node_t*)’:
+floorplan.c:83:3: error: expected ‘;’ before ‘}’ token
+   } else if (a == b) {
+   ^
+floorplan.c: In function ‘void swap_module(node_t*, node_t*)’:
+floorplan.c:134:3: error: expected ‘,’ or ‘;’ before ‘a’
+   a -> module = b -> module;
+   ^
+make: *** [floorplanner] Error 1
+
+g++ -Wall -O3 -c floorplan.c -o floorplan.o
+
+This nightly test is focusing on compilation error not functionality test.
+This nightly report only tests on the released testcases.
+There are many hidden edge testcase for the MP. Please test it yourselve.
