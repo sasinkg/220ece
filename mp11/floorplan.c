@@ -56,6 +56,9 @@ void floorplan(const char file[]) {
 // Return 1 if the given slicing tree node is a leave node, and 0 otherwise.
 int is_leaf_node(node_t* ptr) {
   // TODO: (remember to modify the return value appropriately)
+  if (ptr -> left == NULL && ptr -> right == NULL) {
+    return 1;
+  }
   return 0;
 }
 
@@ -63,12 +66,25 @@ int is_leaf_node(node_t* ptr) {
 // Return 1 if the given slicing tree node is an internal node, and 0 otherwise.
 int is_internal_node(node_t* ptr) {
   // TODO: (remember to modify the return value appropriately)
+  if ((ptr -> left != NULL || ptr -> right != NULL)) {
+    return 1;
+  }
   return 0;
 }
 
 // Function: is_in_subtree
 // Return 1 if the given subtree rooted at node 'b' resides in the subtree rooted at node 'a'.
 int is_in_subtree(node_t* a, node_t* b) {
+  if (a == NULL) {
+    return 0
+  } else if (a == b) {
+    return 1;
+  // not too sure on lines 83-87
+  } else if (is_in_subtree (a -> left, b)) {
+    return 1;
+  } else if (is_in_subtree (a -> right, b)) {
+    return 1;
+  }
   // TODO: (remember to modify the return value appropriately)
   return 0;
 }
@@ -78,6 +94,11 @@ int is_in_subtree(node_t* a, node_t* b) {
 // and the width of the modules are swapped.
 void rotate(node_t* ptr) {
   // TODO: 
+  if (is_leaf_node(ptr) == 1) {
+    int temp = ptr -> module -> w;
+    ptr -> module -> w = ptr -> module -> h;
+    ptr -> module -> h = temp;
+  }
 }
 
 // Procedure: recut
@@ -89,6 +110,11 @@ void recut(node_t* ptr) {
   assert(ptr->module == NULL && ptr->cutline != UNDEFINED_CUTLINE);
 
   // TODO:
+  if (ptr -> cutline == H) {
+  ptr -> cutline = V;  
+  } else {
+    ptr -> cutline = H;
+  }
   return;
 }
 
@@ -99,7 +125,11 @@ void swap_module(node_t* a, node_t* b) {
   assert(a->module != NULL && a->cutline == UNDEFINED_CUTLINE);
   assert(b->module != NULL && b->cutline == UNDEFINED_CUTLINE);
 
-  // TODO:
+  // TODO: 
+  // not sure about line 130
+  module_t * temp = a -> module
+  a -> module = b -> module;
+  b -> module = temp;
 }
 
 // Procedure: swap_topology
