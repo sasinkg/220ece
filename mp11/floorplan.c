@@ -1,6 +1,14 @@
 #include "floorplan.h"
 
-/* partners sasinkg2 dhruvv2 akshay5 introparagraph: This project implements a circuit planner using a tree. This project was a little hard as it took many iterations to keep our code from being redundant. For example, for the swap_topology function we figured out a way to make it more efficient when we realized that the module pointer is a null value going into the function, so the only if statement we added was to check if it was actually a cutline. Is leaf node and internal node check if the node is a leaf or internal node. Rotate and recut alter the values of the node, and get total resources gets the total resources used during recursion. Postfix traversal searches the tree and adds nodes in the arrays. Finally, init slicing tree initializes the tree using recursion.*/
+/* partners sasinkg2 dhruvv2 akshay5 
+introparagraph: This project implements a circuit planner using a tree. 
+This project was a little hard as it took many iterations to keep our code from being redundant. 
+For example, for the swap_topology function we figured out a way to make it more efficient when we realized 
+that the module pointer is a null value going into the function, so the only if statement we added was to 
+check if it was actually a cutline. Is leaf node and internal node check if the node is a leaf or internal node. 
+Rotate and recut alter the values of the node, and get total resources gets the total resources used during recursion. 
+Postfix traversal searches the tree and adds nodes in the arrays. Finally, init slicing tree initializes the tree using 
+recursion.*/
 // Global variables. The global variables will be effectice after the input has been parsed
 // by calling the procedure read_module.
 int num_modules;                                            // # of input modules.
