@@ -1,0 +1,18 @@
+Compilation Results:
+********************
+
+load_tuples test: 10 pts total
+
+gv_tuples test: 6 pts total
+Test 2: gv
++6: gv_tuples
+
+set_tuples test: 44 pts total
+
+Grade:
+******
+Late submission: 0
+Functionality: 0
+Comments and Style: 5
+Intro paragraph: 5
+Total: 10
