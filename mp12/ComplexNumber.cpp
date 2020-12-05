@@ -3,7 +3,12 @@
 
 ComplexNumber::ComplexNumber()
 {
-    /* Your code here */
+    /*  code here */
+    real_component = 0;
+    magnitude = 0;
+    phase = 0;
+    number_type = REAL;
+   
 }
 
 ComplexNumber::ComplexNumber(double rval_real_component, double rval_imaginary_component)
