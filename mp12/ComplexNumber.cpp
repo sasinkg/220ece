@@ -35,8 +35,8 @@ void ComplexNumber::set_real_component (double rval)
 {
     /* Your code here */
     real_component = rval;
-    magnitude = abs(rval);
-    phase = calculate_phase(rval, 0);
+    magnitude = sqrt((rrval*rval) + (imaginary_component*imaginary_component));
+    phase = calculate_phase(rval, imaginary_component);
 }
 
 double ComplexNumber::get_real_component() const
@@ -49,8 +49,8 @@ void ComplexNumber::set_imaginary_component (double rval)
 {
     /* Your code here */
     imaginary_component = rval;
-    magnitude = abs(rval);
-    phase = calculate_phase(0, rval);
+    magnitude = sqrt((real_component*real_component) + (rval*rval));
+    phase = calculate_phase(real_component, rval);
 }
 
 double ComplexNumber::get_imaginary_component() const
