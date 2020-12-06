@@ -88,7 +88,8 @@ ComplexNumber ComplexNumber::operator * (const ComplexNumber& arg)
 ComplexNumber ComplexNumber::operator / (const ComplexNumber& arg)
 {
     /* Your code here */
-    return ComplexNumber();
+    double mag = arg.get.magnitude();
+    return ComplexNumber((((real_component * arg.real_component)+(-1*imaginary_component * arg.imaginary_component))/(mag*mag)), (((real_component * arg.imaginary_component) - (imaginary_component * arg.real_component))/(mag*mag)));
 }
 
 ComplexNumber ComplexNumber::operator + (const RealNumber& arg)
