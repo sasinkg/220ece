@@ -35,7 +35,7 @@ void ComplexNumber::set_real_component (double rval)
 {
     /* Your code here */
     real_component = rval;
-    magnitude = sqrt((rrval*rval) + (imaginary_component*imaginary_component));
+    magnitude = sqrt((rval*rval) + (imaginary_component*imaginary_component));
     phase = calculate_phase(rval, imaginary_component);
 }
 

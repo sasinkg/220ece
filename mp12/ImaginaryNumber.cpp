@@ -124,14 +124,10 @@ ComplexNumber ImaginaryNumber::operator * (const ComplexNumber& arg)
 ComplexNumber ImaginaryNumber::operator / (const ComplexNumber& arg)
 {
     /* Your code here */
-<<<<<<< HEAD
     double den = (arg.get_real_component()*arg.get_real_component() + arg.get_imaginary_component()*arg.get_imaginary_component());
     double num_imag = (imaginary_component*arg.get_real_component());
     double num_real = (imaginary_component*arg.get_imaginary_component());
     return ComplexNumber(num_real / den , num_imag / den);
-=======
-    return ComplexNumber(imaginary_component / arg.get_real_component(), imaginary_component / arg.get_imaginary_component());
->>>>>>> cd051811e24435e6b41cc6c17216903167c37224
 }
 
 string ImaginaryNumber::to_String(){
