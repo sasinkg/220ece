@@ -7,13 +7,19 @@ ComplexNumber::ComplexNumber()
     real_component = 0;
     magnitude = 0;
     phase = 0;
-    number_type = REAL;
+    number_type = COMPLEX;
    
 }
 
 ComplexNumber::ComplexNumber(double rval_real_component, double rval_imaginary_component)
 {
     /* Your code here */
+    real_component = rval_real_component;
+    imaginary_component = rval_imaginary_component;
+    magnitude = sqrt((rval_real_component*rval_real_component)+(rval_imaginary_component*rval_imaginary_component));
+    phase = calculate_phase(real_component,imaginary_component)
+    //calculate_phase = atan(imaginary_component/real_component);
+    number_type = COMPLEX;
 }
 
 ComplexNumber::ComplexNumber( const ComplexNumber& other )
@@ -56,20 +62,27 @@ double ComplexNumber::get_phase() const{
 ComplexNumber ComplexNumber::operator + (const ComplexNumber& arg)
 {
     /* Your code here */
-    return ComplexNumber();
+    return ComplexNumber(real_component + arg.real_component, imaginary_component + arg.imaginary_component);
 }
 
 ComplexNumber ComplexNumber::operator - (const ComplexNumber& arg)
 {
     /* Your code here */
-    return ComplexNumber();
+    return ComplexNumber(real_component - arg.real_component, imaginary_component - arg.imaginary_component);
 }
 
 ComplexNumber ComplexNumber::operator * (const ComplexNumber& arg)
 {
     /* Your code here */
-
-    return ComplexNumber();
+    // double realReal = real_component * arg.real_component;
+    // double imaginaryImaginary = -1*imaginary_component * arg.imaginary_component
+    // double realImaginary = real_component*arg.imaginary_component;
+    // double imaginaryReal = imaginary_component*arg.real_component;
+    // double real = realReal + imaginaryImaginary;
+    // double imaginary = realImaginary + imaginaryReal;
+    // return ComplexNumber(real, imaginary);
+    
+    return ComplexNumber(((real_component * arg.real_component)+(-1*imaginary_component * arg.imaginary_component)), ((real_component * arg.imaginary_component) + (imaginary_component * arg.real_component)));
 }
 
 ComplexNumber ComplexNumber::operator / (const ComplexNumber& arg)
