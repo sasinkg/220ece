@@ -57,13 +57,13 @@ double RealNumber::get_phase() const{
 RealNumber RealNumber::operator + (const RealNumber& arg)
 {
     /* Your code here */
-    return RealNumber(real_component - arg.get_real_component());
+    return RealNumber(real_component + arg.get_real_component());
 }
 
 RealNumber RealNumber::operator - (const RealNumber& arg)
 {
     /* Your code here */
-    return RealNumber(real_component + arg.get_real_component());
+    return RealNumber(real_component - arg.get_real_component());
 }
 
 RealNumber RealNumber::operator * (const RealNumber& arg)
@@ -91,12 +91,12 @@ ComplexNumber RealNumber::operator - (const ImaginaryNumber& arg){
 // 2 */ 4i
 ImaginaryNumber RealNumber::operator * (const ImaginaryNumber& arg){
     /* Your code here */
-	return ComplexNumber(real_component * arg.get_imaginary_component());
+	return ImaginaryNumber(real_component * arg.get_imaginary_component());
 }
 
 ImaginaryNumber RealNumber::operator / (const ImaginaryNumber& arg){
     /* Your code here */
-	return ComplexNumber(real_component / arg.get_imaginary_component());
+	return ImaginaryNumber(real_component / arg.get_imaginary_component());
 }
 // 2 +- <4,2>
 ComplexNumber RealNumber::operator + (const ComplexNumber& arg){
