@@ -77,23 +77,23 @@ RealNumber RealNumber::operator / (const RealNumber& arg)
 // 2 +- 4i
 ComplexNumber RealNumber::operator + (const ImaginaryNumber& arg){
     /* Your code here */
-	
+    
     return ComplexNumber(real_component, + arg.get_imaginary_component());
 }
 
 ComplexNumber RealNumber::operator - (const ImaginaryNumber& arg){
     /* Your code here */
-	return ComplexNumber(real_component, - arg.get_imaginary_component());
+    return ComplexNumber(real_component, - arg.get_imaginary_component());
 }
 // 2 */ 4i
 ImaginaryNumber RealNumber::operator * (const ImaginaryNumber& arg){
     /* Your code here */
-	return ImaginaryNumber(real_component * arg.get_imaginary_component());
+    return ImaginaryNumber(real_component * arg.get_imaginary_component());
 }
 
 ImaginaryNumber RealNumber::operator / (const ImaginaryNumber& arg){
     /* Your code here */
-	return ImaginaryNumber(-1 * real_component / arg.get_imaginary_component());
+    return ImaginaryNumber(-1 * real_component / arg.get_imaginary_component());
 }
 // 2 +- <4,2>
 ComplexNumber RealNumber::operator + (const ComplexNumber& arg){
@@ -103,17 +103,20 @@ ComplexNumber RealNumber::operator + (const ComplexNumber& arg){
 
 ComplexNumber RealNumber::operator - (const ComplexNumber& arg){
     /* Your code here */
-	return ComplexNumber(real_component - arg.get_real_component(), + arg.get_imaginary_component());
+    return ComplexNumber(real_component - arg.get_real_component(), + arg.get_imaginary_component());
 }
 // 2 */ <4,2>
 ComplexNumber RealNumber::operator * (const ComplexNumber& arg){
     /* Your code here */
-	return ComplexNumber(real_component * arg.get_real_component(), real_component * arg.get_imaginary_component());
+    return ComplexNumber(real_component * arg.get_real_component(), real_component * arg.get_imaginary_component());
 }
 
 ComplexNumber RealNumber::operator / (const ComplexNumber& arg){
     /* Your code here */
-    return ComplexNumber((real_component*arg.get_real_component()) / (arg.get_real_component() + arg.get_imaginary_component()) * (arg.get_real_component() - arg.get_imaginary_component()), (real_component * (-1*arg.get_imaginary_component())) / (arg.get_real_component() + arg.get_imaginary_component()) * (arg.get_real_component() - arg.get_imaginary_component()));
+    double den = (arg.get_real_component()*arg.get_real_component() + arg.get_imaginary_component()*arg.get_imaginary_component());
+    double num_real = (real_component*arg.get_real_component());
+    double num_imag = (real_component*-1*arg.get_imaginary_component());
+    return ComplexNumber(num_real / den , num_imag / den);
 }
 
 string RealNumber::to_String(){
@@ -122,3 +125,4 @@ string RealNumber::to_String(){
     my_output << std::setprecision(3) << real_component;
     return my_output.str();
 }
+
